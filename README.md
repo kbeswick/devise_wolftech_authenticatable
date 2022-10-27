@@ -2,8 +2,6 @@
 
 Provides a Devise strategy for authenticating against WolfTech LDAP.
 
-**This repository must remain private to the Libraries.**
-
 ## Installation and configuration
 
 1. Add the gem to your Gemfile:
