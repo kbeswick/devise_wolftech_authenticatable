@@ -1,0 +1,13 @@
+#!/usr/bin/env ruby
+
+require_relative '../lib/campus-ldap'
+require 'slop'
+require 'pp'
+
+opts = Slop.parse do
+  banner 'Usage: campus-ldap-search -u unityid'
+
+  on 'u', 'unityid=', 'Path to image'
+end
+
+pp CampusLdap.entry_by_unityid(opts[:unityid])

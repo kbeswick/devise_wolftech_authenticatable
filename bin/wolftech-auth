@@ -1,0 +1,38 @@
+#!/usr/bin/env ruby
+
+require_relative '../lib/wolftech-authenticator'
+require 'highline/import'
+require 'slop'
+require 'pp'
+# require 'pry'
+
+opts = Slop.parse do
+  banner 'Usage: wolftech-auth [options]'
+
+  on 'u', 'unityid=', 'Path to image'
+  on 's', 'showuser', 'Show the LDAP user record'
+end
+
+wolftech = WolftechAuthenticator.new
+
+if opts[:unityid]
+  unityid = opts[:unityid]
+else
+  unityid = ask("Enter Unity ID:")
+end
+
+password = ask("Enter password: ") { |q| q.echo = false }
+
+# wolftech.authenticate simply returns true/false
+user = wolftech.authenticate(unityid, password)
+if user
+  puts "Successfully authenticated."
+else
+  puts "Failed to authenticate."
+end
+
+# reuse the connection to get the ldap user
+if opts[:showuser]
+  pp wolftech.get_ldap_user(unityid)
+end
+
